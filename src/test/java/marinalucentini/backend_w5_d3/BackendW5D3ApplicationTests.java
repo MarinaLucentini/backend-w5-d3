@@ -50,6 +50,14 @@ void generateOrderAndVerificatedTotal(){
 		Topping topping = context.getBean(Topping.class);
 		Order order = new Order(1, Arrays.asList(pizza, water, topping), OrderStatus.SERVED, 2, LocalTime.of(15,20));
 		assertEquals(expectedResult, order.total(coperto));
-
+	}
+	@ParameterizedTest
+	@CsvSource({"2, 10.97, pizzaMargherita", "2, 11.98, pizzaHawaiana"})
+	void testTotalOrder2(double coperto, double expectedResult, String namePizza){
+		Pizza pizza = context.getBean(namePizza, Pizza.class);
+		Drink water = context.getBean("Water", Drink.class);
+		Topping topping = context.getBean(Topping.class);
+		Order order = new Order(1, Arrays.asList(pizza, water, topping), OrderStatus.SERVED, 2, LocalTime.of(15,20));
+		assertEquals(expectedResult, order.total(coperto));
 	}
 }
