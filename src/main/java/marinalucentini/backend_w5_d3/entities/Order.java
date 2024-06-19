@@ -27,6 +27,6 @@ public class Order {
         this.hoursOfAcquisition = hoursOfAcquisition;
     }
     public double total (double coperto){
-   return   this.total = this.menuElements.stream().mapToDouble(MenuElement::getPrice).sum() +  coperto;
+   return   this.total = this.menuElements.stream().mapToDouble(MenuElement::getPrice).sum() +  (coperto * numberCovered);
    }
 }

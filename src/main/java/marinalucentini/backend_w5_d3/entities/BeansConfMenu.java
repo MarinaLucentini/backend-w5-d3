@@ -65,7 +65,7 @@ public class BeansConfMenu {
         toppings.addAll(toppingMargherita());
         toppings.add(getToppingPineaple());
         toppings.add(getToppingHam());
-        return new Pizza("Pizza Hawaiana", pizzaMargherita().getPrice() + getToppingHam().getPrice()+ getToppingPineaple().getPrice(), pizzaMargherita().getCalories()+ getToppingHam().getCalories()+ getToppingPineaple().getCalories(), toppings );
+        return new Pizza("Pizza Hawaiana", Math.floor(pizzaMargherita().getPrice() + getToppingHam().getPrice()+ getToppingPineaple().getPrice()) , pizzaMargherita().getCalories()+ getToppingHam().getCalories()+ getToppingPineaple().getCalories(), toppings );
     }
     @Bean
     public Pizza pizzaSalami(){

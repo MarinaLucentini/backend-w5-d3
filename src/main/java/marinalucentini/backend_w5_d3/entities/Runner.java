@@ -35,7 +35,22 @@ public class Runner implements CommandLineRunner {
                 el.getName() + "(" + el.getQuantity() + "L)" + " prezzo " + el.getPrice() + " calorie " + el.getCalories()
         ));
     }
+private void printOrderTable(Table table, double copertoCosto){
+    System.out.println("Coperto a persona:");
+    System.out.println(copertoCosto);
+    System.out.println("Ordine:");
 
+    table.getOrders().forEach(el->{
+        String elementOrderName=
+                el.getMenuElements().stream().map(MenuElement::getName).collect(Collectors.joining(","));
+        String elementOrderPrice =
+                el.getMenuElements().stream().map(menuElement->
+                        String.valueOf(menuElement.getPrice())).collect(Collectors.joining(","));
+
+        System.out.println("( "+elementOrderName +" ) "+ "( "+ elementOrderPrice+" )"+ " Totale: " + el.total(copertoCosto));
+    });
+
+}
 
 @Autowired
 Menu menuPizzeria;
@@ -48,10 +63,6 @@ double copertoCosto = context.getBean("coperto", double.class);
        Pizza pizza = context.getBean("pizzaMargherita", Pizza.class);
        Drink water = context.getBean("Water", Drink.class);
        Topping topping = context.getBean(Topping.class);
-        System.out.println(pizza.getName());
-        System.out.println(water.getName());
-        System.out.println(topping.getName());
-
 
         Order order = new Order(1, Arrays.asList(pizza, water, topping), OrderStatus.IN_PROGRESS, 2, LocalTime.of(20, 30));
 
@@ -60,24 +71,16 @@ double copertoCosto = context.getBean("coperto", double.class);
 
         table1.setOrders(Arrays.asList(order));
 
-        double totalPrice = order.total(copertoCosto);
-        System.out.println("Total Price: " + totalPrice);
-
-
-
-        System.out.println("Tavolo n: " + table1.getNumberTable() + " State: " + table1.getTableStatus() + " Numero Massimo persone: " + table1.getMaxPerson() + " Ordini: " );
-
-        table1.getOrders().forEach(el->{
-            String elementOrderName=
-                    el.getMenuElements().stream().map(MenuElement::getName).collect(Collectors.joining(","));
-            String elementOrderPrice =
-                    el.getMenuElements().stream().map(menuElement->
-                            String.valueOf(menuElement.getPrice())).collect(Collectors.joining(","));
-            System.out.println(elementOrderName +" "+ elementOrderPrice+ " Totale: " + el.total(copertoCosto));
-        });
 
 
         printMenu();
+
+        System.out.println("Tavolo n: " + table1.getNumberTable() + " State: " + table1.getTableStatus() + " Numero Massimo persone: " + table1.getMaxPerson() );
+printOrderTable(table1, copertoCosto);
+
+
+
+
 
     }
 
