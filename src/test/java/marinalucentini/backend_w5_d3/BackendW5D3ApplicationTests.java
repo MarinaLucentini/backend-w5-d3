@@ -4,6 +4,8 @@ import marinalucentini.backend_w5_d3.entities.*;
 import marinalucentini.backend_w5_d3.enums.OrderStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,9 +41,15 @@ void generateOrderAndVerificatedTotal(){
 		assertNotNull(order);
 		assertNotSame(pizza, pizza2);
 		assertEquals(16.97, order.total(coperto));
-
-
+	}
+	@ParameterizedTest
+	@CsvSource({"2, 10.97", "4, 14.97"})
+	void testTotalOrder(double coperto, double expectedResult){
+		Pizza pizza = context.getBean("pizzaMargherita", Pizza.class);
+		Drink water = context.getBean("Water", Drink.class);
+		Topping topping = context.getBean(Topping.class);
+		Order order = new Order(1, Arrays.asList(pizza, water, topping), OrderStatus.SERVED, 2, LocalTime.of(15,20));
+		assertEquals(expectedResult, order.total(coperto));
 
 	}
-
 }
